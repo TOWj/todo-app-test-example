@@ -1,6 +1,8 @@
 package com.example.todoapptestexample.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 
@@ -9,9 +11,13 @@ import java.util.Date;
 public class Task {
 
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "body")
+    @NotEmpty(message = "Поле задачи не должно быть пустым!")
+    @Size(max = 255, message = "Длина задачи должна быть не больше 255 символов!")
     private String body;
 
     @Column(name = "created_at")
@@ -30,8 +36,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(int id, String body, Date createdAt, Date updatedAt, boolean completed) {
-        this.id = id;
+    public Task(String body, Date createdAt, Date updatedAt, boolean completed) {
         this.body = body;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

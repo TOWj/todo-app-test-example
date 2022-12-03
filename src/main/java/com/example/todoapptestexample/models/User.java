@@ -1,6 +1,8 @@
 package com.example.todoapptestexample.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 import java.util.List;
@@ -10,12 +12,18 @@ import java.util.List;
 public class User {
 
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "login")
+    @NotEmpty(message = "Поле имени не должно быть пустым!")
+    @Size(max = 50, message = "Имя не должно быть длиннее 50 символов!")
     private String login;
 
     @Column(name = "password")
+    @NotEmpty(message = "Поле пароля не должно быть пустым!")
+    @Size(min = 4, max = 20, message = "Длина пароля должна быть от 4 до 20 символов!")
     private String password;
 
     @Column(name = "created_at")
@@ -27,10 +35,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, String login, String password, Date createdAt) {
-        this.id = id;
+    public User(String login, Date createdAt) {
         this.login = login;
-        this.password = password;
         this.createdAt = createdAt;
     }
 
