@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>ToDo Register</title>
+    <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+  <div th:insert="~{components/styles}"></div>
+</head>
+
+<body>
+
+<div th:insert="~{components/preloader}"></div>
+
+<div th:insert="~{components/header}"></div>
+
+<div class="main-banner" style="background-image: url(/assets/images/banner-lamp.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-11">
+                <div class="top-text header-text">
+                    <h2>Страница регистрации</h2>
+                </div>
+                <div class="container" th:align="center">
+                    <div th:insert="~{components/register-form}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Footer  -->
+<div th:insert="~{components/footer}"></div>
+
+<!-- Scripts -->
+<div th:insert="~{components/scripts}"></div>
+
+</body>
+
+</html>

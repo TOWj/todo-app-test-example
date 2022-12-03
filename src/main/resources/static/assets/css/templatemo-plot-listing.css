@@ -180,7 +180,7 @@ body {
 .section-heading h2 {
   font-size: 35px;
   margin-bottom: 25px;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   color: #2a2a2a;
   font-weight: 700;
   position: relative;
@@ -201,7 +201,7 @@ body {
   font-size: 15px;
   font-weight: 400;
   color: #2a2a2a;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   padding: 12px 25px;
   border-radius: 7px;
   letter-spacing: 0.25px;
@@ -248,7 +248,7 @@ header
 }
 
 .background-header .main-nav .nav li:hover a {
-  color: #8d99af!important;
+  color: #9eb8e3 !important;
 }
 
 .background-header .nav li a.active {
@@ -321,7 +321,7 @@ header
 .header-area .main-nav .nav li:last-child a ,
 .background-header .main-nav .nav li:last-child a {
   color: #2a2a2a !important;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   padding: 0px 20px;
   font-weight: 400;
 }
@@ -365,12 +365,12 @@ header
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-  color: #8d99af!important;
+  color: #000000!important;
 }
 
 .background-header .main-nav .nav li:hover a,
 .background-header .main-nav .nav li a.active {
-  color: #8d99af!important;
+  color: #000000!important;
   opacity: 1;
 }
 
@@ -745,7 +745,7 @@ Banner Style
   color: #fff;
   font-size: 45px;
   font-weight: 800;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   margin-top: 15px;
   margin-bottom: 45px;
 }
@@ -1233,11 +1233,11 @@ form#contact input {
   height: 46px;
   border-radius: 7px;
   background-color: transparent;
-  border: 1px solid #8d99af;
+  border: 1px solid #ffffff;
   outline: none;
   font-size: 15px;
   font-weight: 300;
-  color: #8d99af;
+  color: #ffffff;
   padding: 0px 15px;
   margin-bottom: 30px;
 }
@@ -1257,20 +1257,20 @@ form#contact input[type=checkbox] {
   min-width: 15px;
   height: 15px;
   background-color: transparent;
-  border: 1px solid #8d99af;
+  border: 1px solid #ffffff;
   outline: none;
   cursor: pointer;
 }
 
 form#contact span {
-  color: #8d99af;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 500;
   margin-left: 8px;
 }
 
 form#contact input::placeholder {
-  color: #8d99af;
+  color: rgba(255, 255, 255, 0.68);
   font-weight: 500;
 }
 
@@ -1284,17 +1284,17 @@ form#contact textarea {
   height: 140px;
   border-radius: 7px;
   background-color: transparent;
-  border: 1px solid #8d99af;
+  border: 1px solid #ffffff;
   outline: none;
   font-size: 15px;
   font-weight: 300;
-  color: #8d99af;
+  color: #ffffff;
   padding: 15px;
   margin-bottom: 30px;
 }
 
 form#contact textarea::placeholder {
-  color: #8d99af;
+  color: #000000;
   font-weight: 500;
 }
 
@@ -1305,7 +1305,7 @@ form#contact button {
   font-size: 15px;
   font-weight: 400;
   color: #fff;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   padding: 12px 25px;
   border-radius: 7px;
   letter-spacing: 0.25px;
@@ -1365,7 +1365,7 @@ Page Heading
   line-height: 70px;
   font-size: 45px;
   font-weight: 800;
-  text-transform: capitalize;
+  /*text-transform: capitalize;*/
   margin-top: 15px;
 }
 

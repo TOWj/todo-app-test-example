@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>ToDo Home</title>
+    <title>ToDo Login</title>
     <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
     <div th:insert="~{components/styles}"></div>
@@ -18,31 +18,25 @@
 
 <div th:insert="~{components/header}"></div>
 
-<!--if-->
-<!--<div class="main-banner">-->
-<!--    <div class="container">-->
-<!--        <div th:insert="~{components/todo}"></div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--if-->
-<div class="main-banner" style="background-image: url(/assets/images/banner-hand.jpg);">
+<div class="main-banner" style="background-image: url(/assets/images/banner-lists.jpg);">
     <div class="container">
         <div class="row">
             <div class="col-lg-11">
                 <div class="top-text header-text">
-                    <h6>Добро пожаловать!</h6>
-                    <h2>Для начала использования
-                        <a href="/register" style="color: white;">зарегистрируйтесь</a> или
-                        <a href="/login" style="color: white;">авторизуйтесь</a></h2>
+                    <h2>Страница авторизации</h2>
+                </div>
+                <div class="container" th:align="center">
+                    <div th:insert="~{components/auth-form}"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!--  Footer  -->
 <div th:insert="~{components/footer}"></div>
 
+<!-- Scripts -->
 <div th:insert="~{components/scripts}"></div>
 
 </body>

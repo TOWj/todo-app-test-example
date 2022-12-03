@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>ToDo Page</title>
+    <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+    <div th:insert="~{components/styles}"></div>
+</head>
+
+<body>
+
+<div th:insert="~{components/preloader}"></div>
+
+<div th:insert="~{components/header}"></div>
+
+<!--if-->
+<div class="main-banner" style="background-image: url(/assets/images/banner-sheets.jpg);">
+    <div class="container">
+        <div th:insert="~{components/todo}"></div>
+    </div>
+</div>
+
+<!--&lt;!&ndash;if&ndash;&gt;-->
+<!--<div class="main-banner">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-11">-->
+<!--                <div class="top-text header-text">-->
+<!--                    <h6>Добро пожаловать!</h6>-->
+<!--                    <h2>Для начала использования-->
+<!--                        <a href="/register" style="color: white;">зарегистрируйтесь</a> или-->
+<!--                        <a href="/login" style="color: white;">авторизуйтесь</a></h2>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<div th:insert="~{components/footer}"></div>
+
+<div th:insert="~{components/scripts}"></div>
+
+</body>
+
+</html>
