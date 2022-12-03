@@ -13,4 +13,5 @@ user_id int references users (id) on delete cascade on update cascade,
 body varchar(255) not null,
 created_at timestamp,
 updated_at timestamp
+completed bool default false not null;
 );

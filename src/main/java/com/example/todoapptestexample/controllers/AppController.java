@@ -11,16 +11,6 @@ public class AppController {
         return "index";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        return "register";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
     @GetMapping("/todo")
     public String todoPage() {
         return "todo-page";
