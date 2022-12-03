@@ -29,6 +29,9 @@ public class User {
     @Column(name = "created_at")
     private Date createdAt;
 
+    @Column(name = "role")
+    private String role;
+
     @OneToMany(mappedBy = "user")
     private List<Task> taskList;
 
