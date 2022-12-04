@@ -25,7 +25,7 @@ public class RegistrationService {
 
     @Transactional
     public void register(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("USER");
         user.setCreatedAt(new Timestamp(new Date().getTime()));
         usersRepository.save(user);
