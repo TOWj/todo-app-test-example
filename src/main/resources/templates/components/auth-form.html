@@ -2,7 +2,7 @@
 
     <div class="col-lg-6">
 
-        <form id="contact" action="/process_login" method="post">
+        <form id="contact" th:action="@{/process_login}" method="post">
 
 
             <div class="row">
@@ -14,7 +14,7 @@
 
                 <div class="col-lg-6">
                     <fieldset>
-                        <input type="username" name="username" id="username" placeholder="Имя" autocomplete="on"
+                        <input type="text" name="username" id="username" placeholder="Имя" autocomplete="on"
                                required>
                     </fieldset>
                 </div>

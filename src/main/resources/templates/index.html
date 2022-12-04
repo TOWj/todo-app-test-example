@@ -7,7 +7,7 @@
     <meta name="author" content="">
 
     <title>ToDo Home</title>
-    <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link th:href="@{/assets/images/favicon.ico}" rel="shortcut icon" type="image/x-icon">
 
     <div th:replace="~{components/styles}"></div>
 </head>
@@ -29,8 +29,8 @@
                 <div class="top-text header-text">
                     <h6>Добро пожаловать!</h6>
                     <h2>Для начала использования
-                        <a href="/register" style="color: white;">зарегистрируйтесь</a> или
-                        <a href="/login" style="color: white;">авторизуйтесь</a></h2>
+                        <a th:href="@{/register}" style="color: white;">зарегистрируйтесь</a> или
+                        <a th:href="@{/login}" style="color: white;">авторизуйтесь</a></h2>
                 </div>
             </div>
         </div>
