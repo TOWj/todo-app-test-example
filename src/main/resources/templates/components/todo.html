@@ -8,9 +8,9 @@
                             <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
                                 <div class="card-body py-4 px-4 px-md-5">
 
-                                    <p class="h1 text-center mt-3 mb-4 pb-3 text-primary">
+                                    <h2>
                                         My ToDo list
-                                    </p>
+                                    </h2>
 
                                     <div class="pb-2">
                                         <div class="card">
@@ -18,11 +18,14 @@
                                                 <div class="d-flex flex-row align-items-center">
                                                     <input type="text" class="form-control form-control-lg"
                                                            id="exampleFormControlInput1"
-                                                           placeholder="Add new...">
+                                                           placeholder="Добавить заметку...">
                                                     <a th:href="@{#}" data-mdb-toggle="tooltip" title="Set due date"><i
                                                             class="fas fa-calendar-alt fa-lg me-3"></i></a>
                                                     <div>
-                                                        <button type="button" class="btn btn-primary">Add</button>
+                                                        <button type="button" class="btn btn-primary"
+                                                                style="background-color: #769154; border-color: #769154">
+                                                            Добавить
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -33,7 +36,9 @@
                                         <!--foreach-->
                                         <li class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                                             <div class="form-check">
-                                                <input class="form-check-input me-0" type="checkbox" value=""
+                                                <input class="form-check-input me-0"
+                                                       style="background-color: #89c040; border-color: #89c040;"
+                                                       type="checkbox" value=""
                                                        id="flexCheckChecked1"
                                                        aria-label="..." checked/>
                                             </div>
@@ -53,10 +58,13 @@
                                             </div>
                                             <div class="text-end text-muted" style="display: flex">
                                                 <a th:href="@{#}" type="button" class="btn btn-primary"
-                                                   style="margin-right: 10px; background-color: red; border-color: red">
-                                                    Delete
+                                                   style="margin-right: 10px; background-color: #cba726; border-color: #cba726">
+                                                    Х
                                                 </a>
-                                                <a th:href="@{/register}" type="button" class="btn btn-primary">Update</a>
+                                                <a th:href="@{/register}" type="button" class="btn btn-primary"
+                                                   style="background-color: #769154; border-color: #769154">
+                                                    Обновить
+                                                </a>
                                             </div>
 
                                         </li>

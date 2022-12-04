@@ -24,15 +24,11 @@
 <div th:replace="~{components/header}"></div>
 
 <div sec:authorize="isAuthenticated()">
-    <div style="background-image: url(/assets/images/banner-sheets.jpg)">
-        <div th:replace="~{components/todo}"></div>
-    </div>
+    <div th:replace="~{components/todo}"></div>
 </div>
 
 <div sec:authorize="isAnonymous()">
-    <div class="main-banner" style="background-image: url(/assets/images/banner-hand.jpg);">
-        <div th:replace="~{components/please_authorize}"></div>
-    </div>
+    <div th:replace="~{components/please_authorize}"></div>
 </div>
 
 <div th:replace="~{components/footer}"></div>
