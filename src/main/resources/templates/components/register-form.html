@@ -2,24 +2,28 @@
 
     <div class="col-lg-6">
 
-        <form id="contact" action="" method="get">
+        <form id="contact" th:action="@{/register}" th:method="post" th:object="${user}">
             <div class="row">
 
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <fieldset>
-                        <input type="name" name="name" id="name" placeholder="Name" autocomplete="on" required>
+                        <div th:if="${#fields.hasErrors('login')}" th:errors="*{login}" style="color: darkred">Неправильные имя или пароль!</div>
                     </fieldset>
                 </div>
-
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <fieldset>
-                        <input type="surname" name="surname" id="surname" placeholder="Surname" autocomplete="on" required>
+                        <input type="text" th:field="*{login}" name="username" id="username" placeholder="Логин" autocomplete="on" required>
                     </fieldset>
                 </div>
 
                 <div class="col-lg-12">
                     <fieldset>
-                        <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
+                        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: darkred">Неправильные имя или пароль!</div>
+                    </fieldset>
+                </div>
+                <div class="col-lg-12">
+                    <fieldset>
+                        <input type="password" th:field="*{password}" name="password" id="password" placeholder="Пароль" required="">
                     </fieldset>
                 </div>
 

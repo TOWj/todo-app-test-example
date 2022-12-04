@@ -1,9 +1,8 @@
 package com.example.todoapptestexample.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class User {
 
     @Column(name = "login")
     @NotEmpty(message = "Поле имени не должно быть пустым!")
-    @Size(max = 50, message = "Имя не должно быть длиннее 50 символов!")
+    @Size(min = 3, max = 50, message = "Длина логина должна быть от 3 до 50 символов!")
     private String login;
 
     @Column(name = "password")
@@ -81,5 +80,24 @@ public class User {
 
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

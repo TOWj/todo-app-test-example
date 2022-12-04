@@ -1,6 +1,7 @@
 package com.example.todoapptestexample.security;
 
 import com.example.todoapptestexample.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,6 +11,7 @@ public class PersonDetails implements UserDetails {
 
     private final User user;
 
+    @Autowired
     public PersonDetails(User user) {
         this.user = user;
     }
@@ -47,5 +49,9 @@ public class PersonDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
