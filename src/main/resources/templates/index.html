@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,26 +16,22 @@
 
 <body>
 
+<div sec:authorize="isAuthenticated()">User Is Authenticated</div>
+<div sec:authorize="isAnonymous()">User Is NotAuthenticated</div>
+
 <div th:replace="~{components/preloader}"></div>
 
 <div th:replace="~{components/header}"></div>
 
-<!--<div th:if="${#authorization.expression('isAuthenticated()')}">-->
-<!--    HUY-->
-<!--</div>-->
+<div sec:authorize="isAuthenticated()">
+    <div style="background-image: url(/assets/images/banner-sheets.jpg)">
+        <div th:replace="~{components/todo}"></div>
+    </div>
+</div>
 
-<div class="main-banner" style="background-image: url(/assets/images/banner-hand.jpg);">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-11">
-                <div class="top-text header-text">
-                    <h6>Добро пожаловать!</h6>
-                    <h2>Для начала использования
-                        <a th:href="@{/register}" style="color: white;">зарегистрируйтесь</a> или
-                        <a th:href="@{/login}" style="color: white;">авторизуйтесь</a></h2>
-                </div>
-            </div>
-        </div>
+<div sec:authorize="isAnonymous()">
+    <div class="main-banner" style="background-image: url(/assets/images/banner-hand.jpg);">
+        <div th:replace="~{components/please_authorize}"></div>
     </div>
 </div>
 

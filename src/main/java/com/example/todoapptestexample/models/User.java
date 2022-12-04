@@ -22,7 +22,7 @@ public class User {
 
     @Column(name = "password")
     @NotEmpty(message = "Поле пароля не должно быть пустым!")
-    @Size(min = 4, max = 20, message = "Длина пароля должна быть от 4 до 20 символов!")
+    @Size(min = 4, message = "Длина пароля должна быть не меньше 4 символов!")
     private String password;
 
     @Column(name = "created_at")
