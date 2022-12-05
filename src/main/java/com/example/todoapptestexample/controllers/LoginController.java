@@ -5,6 +5,7 @@ import com.example.todoapptestexample.security.PersonDetails;
 import com.example.todoapptestexample.services.RegistrationService;
 import com.example.todoapptestexample.util.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,11 @@ public class LoginController {
 
     @GetMapping("/register")
     public String register(@ModelAttribute("user") User user) {
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            return "redirect:/";
+        }
         return "register";
     }
 
@@ -47,6 +53,12 @@ public class LoginController {
 
     @GetMapping("/login")
     public String login() {
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            return "redirect:/";
+        }
+
         return "login";
     }
 

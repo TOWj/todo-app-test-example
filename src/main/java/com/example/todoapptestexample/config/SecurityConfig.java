@@ -27,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/assets/css/**", "/assets/fonts/**", "/assets/images/**", "/assets/js/**", "/vendor/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-//                .csrf().disable()
                 .formLogin().loginPage("/login")
                 .loginProcessingUrl("/process_login")
                 .defaultSuccessUrl("/", true)
