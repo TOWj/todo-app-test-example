@@ -11,9 +11,6 @@ public class AppController {
         return "index";
     }
 
-//    @GetMapping("/todo")
-//    public String todoPage() {
-//        return "todo-page";
-//    }
+
 
 }
