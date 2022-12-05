@@ -4,10 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import org.springframework.hateoas.RepresentationModel;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
+public class Task extends RepresentationModel {
 
     @Id
     @Column(name = "id")

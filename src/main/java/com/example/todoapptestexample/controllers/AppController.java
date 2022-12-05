@@ -8,6 +8,11 @@ import com.example.todoapptestexample.services.UserService;
 import com.example.todoapptestexample.util.exceptions.TaskNotFoundErrorResponse;
 import com.example.todoapptestexample.util.exceptions.TaskNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.core.ControllerEntityLinks;
+import org.springframework.hateoas.server.core.ControllerEntityLinksFactoryBean;
+import org.springframework.hateoas.server.mvc.ControllerLinkRelationProvider;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -16,15 +21,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequestMapping("/todo")
 public class AppController {
 
     private final TaskService taskService;
@@ -36,22 +39,16 @@ public class AppController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-
-        if (SecurityContextHolder.getContext().getAuthentication() != null &&
-                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
-                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            User user = getUserFromAuthentication();
-            model.addAttribute("user", user);
-            return "redirect:/todo";
-        }
-
-        return "index";
-    }
-
-    @GetMapping("/todo")
+    @GetMapping()
     public String todoPage(Model model, @ModelAttribute("task") Task task) {
+
+        Link linkPatch = WebMvcLinkBuilder.linkTo(AppController.class).withRel("patch");
+        Link linkDelete = WebMvcLinkBuilder.linkTo(AppController.class).withRel("delete");
+
+        task.add(linkPatch, linkDelete);
+
+        model.addAttribute("updateLink", linkPatch.getHref());
+        model.addAttribute("deleteLink", linkDelete.getHref());
 
         User user = getUserFromAuthentication();
         model.addAttribute("user", user);
@@ -62,8 +59,8 @@ public class AppController {
         return "todo-page";
     }
 
-    @PostMapping("/todo")
-    public String createTodoPost(@ModelAttribute("task") @Valid Task task,
+    @PostMapping()
+    public String create(@ModelAttribute("task") @Valid Task task,
                                  BindingResult result, Model model) {
         User user = getUserFromAuthentication();
         model.addAttribute("user", user);
@@ -73,6 +70,38 @@ public class AppController {
         task.setUser(user);
         taskService.save(task);
 
+        return "redirect:/todo";
+    }
+
+    @GetMapping("/{id}")
+    public String edit(Model model, @PathVariable("id") int id) throws TaskNotFoundException {
+        User user = getUserFromAuthentication();
+        model.addAttribute("user", user);
+
+        Link linkPatch = WebMvcLinkBuilder.linkTo(AppController.class).slash(id).withRel("patch");
+
+        model.addAttribute("task", taskService.getById(id));
+        model.addAttribute("updateLink", linkPatch.getHref());
+
+        return "todo-edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("task") @Valid Task task,
+                         BindingResult result, Model model, @PathVariable("id") int id) throws TaskNotFoundException {
+        User user = getUserFromAuthentication();
+        model.addAttribute("user", user);
+        if (result.hasErrors()) {
+            return "redirect:/todo/{id}";
+        }
+        taskService.update(id, task);
+
+        return "redirect:/todo";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) {
+        taskService.delete(id);
         return "redirect:/todo";
     }
 

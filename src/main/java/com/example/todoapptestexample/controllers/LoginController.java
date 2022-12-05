@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +27,20 @@ public class LoginController {
     public LoginController(UserValidator userValidator, RegistrationService registrationService) {
         this.userValidator = userValidator;
         this.registrationService = registrationService;
+    }
+
+    @GetMapping("/")
+    public String index(Model model) {
+
+        if (SecurityContextHolder.getContext().getAuthentication() != null &&
+                SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
+                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            User user = getUserFromAuthentication();
+            model.addAttribute("user", user);
+            return "redirect:/todo";
+        }
+
+        return "index";
     }
 
     @GetMapping("/register")
@@ -74,6 +89,12 @@ public class LoginController {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         System.out.println(personDetails.getUser());
         return "user_info";
+    }
+
+    private User getUserFromAuthentication() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        return personDetails.getUser();
     }
 
 }

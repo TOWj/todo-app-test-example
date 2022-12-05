@@ -45,4 +45,21 @@ public class TaskService {
         task.setUpdatedAt(new Timestamp(new Date().getTime()));
         taskRepository.save(task);
     }
+
+    @Transactional
+    public void update(int id, Task task) throws TaskNotFoundException {
+        Optional<Task> taskToUpdate = taskRepository.findById(id);
+        if (taskToUpdate.isEmpty()) {
+            throw new TaskNotFoundException("Task not found!");
+        }
+        task.setId(id);
+        task.setUser(taskToUpdate.get().getUser());
+
+        taskRepository.save(task);
+    }
+
+    @Transactional
+    public void delete(int id) {
+        taskRepository.deleteById(id);
+    }
 }

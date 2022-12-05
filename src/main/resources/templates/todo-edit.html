@@ -20,7 +20,7 @@
 <div th:replace="~{components/header}"></div>
 
 <div sec:authorize="isAuthenticated()">
-    <div th:replace="~{components/todo :: todo}"></div>
+    <div th:replace="~{components/todo :: todo-edit}"></div>
 </div>
 
 <div th:replace="~{components/footer}"></div>

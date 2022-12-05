@@ -16,9 +16,6 @@
 
 <body>
 
-<div sec:authorize="isAuthenticated()">User Is Authenticated</div>
-<div sec:authorize="isAnonymous()">User Is NotAuthenticated</div>
-
 <div th:replace="~{components/preloader}"></div>
 
 <div th:replace="~{components/header}"></div>
