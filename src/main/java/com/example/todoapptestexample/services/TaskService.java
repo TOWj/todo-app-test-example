@@ -9,11 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class TaskService {
 
     private TaskRepository taskRepository;
@@ -35,5 +37,12 @@ public class TaskService {
             throw new TaskNotFoundException("Task not found!");
         }
         return task.get();
+    }
+
+    @Transactional
+    public void save(Task task) {
+        task.setCreatedAt(new Timestamp(new Date().getTime()));
+        task.setUpdatedAt(new Timestamp(new Date().getTime()));
+        taskRepository.save(task);
     }
 }

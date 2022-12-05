@@ -16,24 +16,46 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="d-flex flex-row align-items-center">
-                                                    <input type="text" class="form-control form-control-lg"
-                                                           id="exampleFormControlInput1"
-                                                           placeholder="Добавить заметку...">
-                                                    <a th:href="@{#}" data-mdb-toggle="tooltip" title="Set due date"><i
-                                                            class="fas fa-calendar-alt fa-lg me-3"></i></a>
-                                                    <div>
-                                                        <button type="button" class="btn btn-primary"
-                                                                style="background-color: #769154; border-color: #769154">
-                                                            Добавить
-                                                        </button>
+
+                                                    <div class="col-lg-12">
+
+                                                        <form th:method="post" th:action="@{/todo}"
+                                                              th:object="${task}">
+                                                            <div class="row">
+                                                                <div th:if="${#fields.hasErrors('body')}" th:errors="*{body}" style="color: darkred"></div>
+                                                                <div class="col-lg-6 align-self-center">
+                                                                    <input style="margin-right: 20px; display: flex;"
+                                                                           class="form-control form-control-lg"
+                                                                           type="text"
+                                                                           th:field="*{body}"
+                                                                           id="body"
+                                                                           name="body"
+                                                                           placeholder="Добавить заметку...">
+                                                                </div>
+
+                                                                <div class="col-lg-3 align-self-center">
+                                                                    <button type="submit" class="btn btn-primary"
+                                                                            style="background-color: #769154; border-color: #769154">
+                                                                        Добавить
+                                                                    </button>
+                                                                </div>
+
+                                                            </div>
+                                                        </form>
+
                                                     </div>
+
                                                 </div>
+
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <ul class="list-group list-group-horizontal rounded-0 bg-transparent">
-                                        <!--foreach-->
+                                <div th:each="task : ${tasks}">
+                                    <ul class="list-group list-group-horizontal rounded-0 bg-transparent"
+                                        style="margin-left: 20px; margin-right: 20px">
                                         <li class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                                             <div class="form-check">
                                                 <input class="form-check-input me-0"
@@ -45,18 +67,10 @@
                                         </li>
                                         <li
                                                 class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                                            <p class="lead fw-normal mb-0">Buy groceries for next week</p>
+                                            <p class="lead fw-normal mb-0" th:text="${task.getBody()}">Task text</p>
                                         </li>
                                         <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
-                                            <div class="d-flex flex-row justify-content-end mb-1">
-                                                <a th:href="@{#}" class="text-info" data-mdb-toggle="tooltip"
-                                                   title="Edit todo"><i
-                                                        class="fas fa-pencil-alt me-3"></i></a>
-                                                <a th:href="@{#}" class="text-danger" data-mdb-toggle="tooltip"
-                                                   title="Delete todo"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                            <div class="text-end text-muted" style="display: flex">
+                                            <div class="text-end text-muted align-self-center" style="display: flex">
                                                 <a th:href="@{#}" type="button" class="btn btn-primary"
                                                    style="margin-right: 10px; background-color: #cba726; border-color: #cba726">
                                                     Х
@@ -66,17 +80,17 @@
                                                     Обновить
                                                 </a>
                                             </div>
-
                                         </li>
-                                        <!--end foreach-->
                                     </ul>
-
                                 </div>
+                                <!--end foreach-->
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
         </div>
+        </section>
+    </div>
     </div>
 </th:block>

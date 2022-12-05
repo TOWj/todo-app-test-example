@@ -33,7 +33,7 @@ public class LoginController {
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                 !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/";
+            return "todo-page";
         }
         return "register";
     }
@@ -56,7 +56,7 @@ public class LoginController {
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                 !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/";
+            return "todo-page";
         }
 
         return "login";

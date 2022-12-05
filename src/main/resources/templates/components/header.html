@@ -7,15 +7,20 @@
                     <a th:href="@{/}" class="logo">
                     </a>
                     <ul class="nav">
+                        <li><a sec:authorize="isAuthenticated()"
+                               th:href="@{/#}"
+                               th:text="${user.getLogin()}"
+                        >
+                            Edit
+                        </a></li>
+                        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="post">
+                            <input type="submit" value="Logout" class="btn btn-primary"
+                                   style="margin-right: 10px; background-color: #cba726; border-color: #cba726">
+                        </form>
 
-                            <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="post">
-                                <input type="submit" value="Logout" class="btn btn-primary"
-                                       style="margin-right: 10px; background-color: #cba726; border-color: #cba726">
-                            </form>
-
-                            <li><a sec:authorize="isAnonymous()" th:href="@{/register}">Регистрация</a></li>
-                            <li><a sec:authorize="isAnonymous()" th:href="@{/login}">Авторизация</a></li>
-                            <li></li>
+                        <li><a sec:authorize="isAnonymous()" th:href="@{/register}">Регистрация</a></li>
+                        <li><a sec:authorize="isAnonymous()" th:href="@{/login}">Авторизация</a></li>
+                        <li></li>
                     </ul>
                 </nav>
             </div>

@@ -23,13 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login", "/error", "/register", "/",
+                .antMatchers("/login", "/error", "/register", "/", "/logout",
                         "/assets/css/**", "/assets/fonts/**", "/assets/images/**", "/assets/js/**", "/vendor/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/", true)
+                .defaultSuccessUrl("/todo", true)
                 .failureUrl("/login?error")
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/");
