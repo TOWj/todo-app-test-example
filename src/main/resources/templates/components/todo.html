@@ -3,7 +3,7 @@
         <div class="container">
             <section class="vh-100">
                 <div class="container py-5 h-100">
-                    <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="row d-flex justify-content-center h-100">
                         <div class="col">
                             <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
                                 <div class="card-body py-4 px-4 px-md-5">
@@ -22,8 +22,6 @@
                                                         <form th:method="post" th:action="@{/todo}"
                                                               th:object="${task}">
                                                             <div class="row">
-                                                                <div th:if="${#fields.hasErrors('body')}"
-                                                                     th:errors="*{body}" style="color: darkred"></div>
                                                                 <div class="col-lg-6 align-self-center">
                                                                     <input style="margin-right: 20px; display: flex;"
                                                                            class="form-control form-control-lg"
@@ -59,27 +57,38 @@
                                         style="margin-left: 20px; margin-right: 20px">
                                         <li class="list-group-item d-flex align-items-center ps-0 pe-3 py-1 rounded-0 border-0 bg-transparent">
                                             <div class="form-check">
-                                                <input class="form-check-input me-0"
-                                                       style="background-color: #89c040; border-color: #89c040;"
-                                                       type="checkbox" value=""
-                                                       id="flexCheckChecked1"
-                                                       aria-label="..." checked/>
+                                                <form th:method="patch"
+                                                      th:action="@{/todo/complete/{id}(id=${task.getId()})}">
+                                                    <input class="form-check-input me-0 ui-state-checked"
+                                                           style="background-color: #89c040; border-color: #89c040;"
+                                                           type="checkbox"
+                                                           th:checked="*{task.completed}"
+                                                           id="completed"
+                                                           name="completed"
+                                                           onclick='this.form.submit();'
+                                                    />
+                                                </form>
                                             </div>
                                         </li>
                                         <li
                                                 class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                                            <p class="lead fw-normal mb-0" th:text="${task.getBody()}">Task text</p>
+                                            <p class="lead fw-normal mb-0"
+                                               th:text="${task.getBody()}"
+                                               th:attr="style=${task.completed ? 'text-decoration: line-through' : ''}">
+                                                Task text</p>
                                         </li>
                                         <li class="list-group-item ps-3 pe-0 py-1 rounded-0 border-0 bg-transparent">
 
                                             <div class="text-end text-muted align-self-center" style="display: flex">
-                                                <form th:method="delete" th:action="@{/todo/{id}(id=${task.getId()})}">
+                                                <form th:method="delete"
+                                                      th:action="@{{path}/{id}(path=${deleteLink}, id=${task.getId()})}">
                                                     <button type="submit" class="btn btn-primary"
                                                             style="margin-right: 10px; background-color: #cba726; border-color: #cba726">
                                                         Х
                                                     </button>
                                                 </form>
-                                                <form th:method="get" th:action="@{/todo/{id}(id=${task.getId()})}">
+                                                <form th:method="get"
+                                                      th:action="@{{path}/{id}(path=${updateLink}, id=${task.getId()})}">
                                                     <button type="submit" class="btn btn-primary"
                                                             style="background-color: #769154; border-color: #769154">
                                                         Обновить
@@ -106,7 +115,7 @@
         <div class="container">
             <section class="vh-100">
                 <div class="container py-5 h-100">
-                    <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="row d-flex justify-content-center h-100">
                         <div class="col">
                             <div class="card" id="list1" style="border-radius: .75rem; background-color: #eff1f2;">
                                 <div class="card-body py-4 px-4 px-md-5">

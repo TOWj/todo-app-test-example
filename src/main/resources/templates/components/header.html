@@ -7,12 +7,8 @@
                     <a th:href="@{/}" class="logo">
                     </a>
                     <ul class="nav">
-                        <li><a sec:authorize="isAuthenticated()"
-                               th:href="@{/#}"
-                               th:text="${user.getLogin()}"
-                        >
-                            Edit
-                        </a></li>
+                        <li>
+                            <a th:href="@{/todo}" sec:authorize="isAuthenticated()" sec:authentication="name">UserName</a></li>
                         <form sec:authorize="isAuthenticated()" th:action="@{/logout}" th:method="post">
                             <input type="submit" value="Logout" class="btn btn-primary"
                                    style="margin-right: 10px; background-color: #cba726; border-color: #cba726">

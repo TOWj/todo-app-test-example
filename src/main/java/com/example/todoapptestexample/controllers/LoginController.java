@@ -35,8 +35,7 @@ public class LoginController {
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                 !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            User user = getUserFromAuthentication();
-            model.addAttribute("user", user);
+
             return "redirect:/todo";
         }
 
@@ -48,7 +47,7 @@ public class LoginController {
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                 !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            return "todo-page";
+            return "redirect:/todo";
         }
         return "register";
     }
@@ -71,30 +70,9 @@ public class LoginController {
         if (SecurityContextHolder.getContext().getAuthentication() != null &&
                 SecurityContextHolder.getContext().getAuthentication().isAuthenticated() &&
                 !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            return "todo-page";
+            return "redirect:/todo";
         }
 
         return "login";
     }
-
-    @GetMapping("/logout")
-    public String logout() {
-        return "";
-    }
-
-    @GetMapping("/user_info")
-    public String userInfo() {
-        // достаем из сессии
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        System.out.println(personDetails.getUser());
-        return "user_info";
-    }
-
-    private User getUserFromAuthentication() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
-        return personDetails.getUser();
-    }
-
 }

@@ -28,10 +28,10 @@ public class TaskService {
     public List<Task> getAllByUserId(int id) {
         User user = new User();
         user.setId(id);
-        return taskRepository.findAllByUser(user);
+        return taskRepository.findAllByUserOrderByCreatedAt(user); // задел на сортировку
     }
 
-    public Task getById(int id) throws TaskNotFoundException {
+    public Task getById(int id) {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isEmpty()) {
             throw new TaskNotFoundException("Task not found!");
@@ -40,14 +40,15 @@ public class TaskService {
     }
 
     @Transactional
-    public void save(Task task) {
+    public void save(Task task, User user) {
+        task.setUser(user);
         task.setCreatedAt(new Timestamp(new Date().getTime()));
         task.setUpdatedAt(new Timestamp(new Date().getTime()));
         taskRepository.save(task);
     }
 
     @Transactional
-    public void update(int id, Task task) throws TaskNotFoundException {
+    public void update(int id, Task task) {
         Optional<Task> taskToUpdate = taskRepository.findById(id);
         if (taskToUpdate.isEmpty()) {
             throw new TaskNotFoundException("Task not found!");
@@ -55,11 +56,29 @@ public class TaskService {
         task.setId(id);
         task.setUser(taskToUpdate.get().getUser());
 
+        task.setCreatedAt(taskToUpdate.get().getCreatedAt());
+        task.setUpdatedAt(new Timestamp(new Date().getTime()));
+
         taskRepository.save(task);
     }
 
     @Transactional
     public void delete(int id) {
         taskRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void completeById(int id, Task taskCompletion) {
+        Optional<Task> taskToUpdate = taskRepository.findById(id);
+
+        if (taskToUpdate.isEmpty()) {
+            throw new TaskNotFoundException("Task not found!");
+        }
+        Task task = taskToUpdate.get();
+        task.setCompleted(taskCompletion.isCompleted());
+
+        task.setUpdatedAt(new Timestamp(new Date().getTime()));
+
+        taskRepository.save(task);
     }
 }

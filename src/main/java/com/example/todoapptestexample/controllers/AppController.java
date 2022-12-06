@@ -31,12 +31,10 @@ import java.util.List;
 public class AppController {
 
     private final TaskService taskService;
-    private final UserService userService;
 
     @Autowired
-    public AppController(TaskService taskService, UserService userService) {
+    public AppController(TaskService taskService) {
         this.taskService = taskService;
-        this.userService = userService;
     }
 
     @GetMapping()
@@ -45,13 +43,10 @@ public class AppController {
         Link linkPatch = WebMvcLinkBuilder.linkTo(AppController.class).withRel("patch");
         Link linkDelete = WebMvcLinkBuilder.linkTo(AppController.class).withRel("delete");
 
-        task.add(linkPatch, linkDelete);
-
         model.addAttribute("updateLink", linkPatch.getHref());
         model.addAttribute("deleteLink", linkDelete.getHref());
 
         User user = getUserFromAuthentication();
-        model.addAttribute("user", user);
 
         List<Task> tasks = taskService.getAllByUserId(user.getId());
         model.addAttribute("tasks", tasks);
@@ -61,26 +56,39 @@ public class AppController {
 
     @PostMapping()
     public String create(@ModelAttribute("task") @Valid Task task,
-                                 BindingResult result, Model model) {
+                                 BindingResult result) {
         User user = getUserFromAuthentication();
-        model.addAttribute("user", user);
+
         if (result.hasErrors()) {
-            return "redirect:/todo";//Если есть ошибки, не сохраняем в базу
+            return "redirect:/todo";
         }
-        task.setUser(user);
-        taskService.save(task);
+
+        taskService.save(task, user);
+
+        return "redirect:/todo";
+    }
+
+    @PatchMapping("/complete/{id}")
+    public String complete(@PathVariable("id") int id, @ModelAttribute("task") Task task) {
+
+        taskService.completeById(id, task);
 
         return "redirect:/todo";
     }
 
     @GetMapping("/{id}")
-    public String edit(Model model, @PathVariable("id") int id) throws TaskNotFoundException {
-        User user = getUserFromAuthentication();
-        model.addAttribute("user", user);
+    public String edit(Model model, @PathVariable("id") int id) {
 
         Link linkPatch = WebMvcLinkBuilder.linkTo(AppController.class).slash(id).withRel("patch");
 
-        model.addAttribute("task", taskService.getById(id));
+        User user = getUserFromAuthentication();
+        Task task = taskService.getById(id);
+
+        if (user.getId() != taskService.getById(id).getUser().getId()) {
+            return "redirect:/todo";
+        }
+
+        model.addAttribute("task", task);
         model.addAttribute("updateLink", linkPatch.getHref());
 
         return "todo-edit";
@@ -88,12 +96,12 @@ public class AppController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("task") @Valid Task task,
-                         BindingResult result, Model model, @PathVariable("id") int id) throws TaskNotFoundException {
-        User user = getUserFromAuthentication();
-        model.addAttribute("user", user);
+                         BindingResult result, @PathVariable("id") int id) {
+
         if (result.hasErrors()) {
             return "redirect:/todo/{id}";
         }
+
         taskService.update(id, task);
 
         return "redirect:/todo";

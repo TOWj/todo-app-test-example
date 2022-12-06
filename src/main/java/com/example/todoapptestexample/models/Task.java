@@ -1,6 +1,7 @@
 package com.example.todoapptestexample.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class Task extends RepresentationModel {
 
     @Column(name = "body")
     @NotEmpty(message = "Поле задачи не должно быть пустым!")
+    @NotBlank(message = "Поле задачи не должно быть пустым!")
     @Size(max = 255, message = "Длина задачи должна быть не больше 255 символов!")
     private String body;
 
