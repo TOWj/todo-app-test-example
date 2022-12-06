@@ -1,21 +1,19 @@
 package com.example.todoapptestexample.controllers;
 
+import com.example.todoapptestexample.dto.TaskDTO;
+import com.example.todoapptestexample.dto.UserDTO;
 import com.example.todoapptestexample.models.Task;
 import com.example.todoapptestexample.models.User;
 import com.example.todoapptestexample.security.PersonDetails;
 import com.example.todoapptestexample.services.TaskService;
-import com.example.todoapptestexample.services.UserService;
 import com.example.todoapptestexample.util.exceptions.TaskNotFoundErrorResponse;
 import com.example.todoapptestexample.util.exceptions.TaskNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.core.ControllerEntityLinks;
-import org.springframework.hateoas.server.core.ControllerEntityLinksFactoryBean;
-import org.springframework.hateoas.server.mvc.ControllerLinkRelationProvider;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,14 +29,16 @@ import java.util.List;
 public class AppController {
 
     private final TaskService taskService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public AppController(TaskService taskService) {
+    public AppController(TaskService taskService, ModelMapper modelMapper) {
         this.taskService = taskService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping()
-    public String todoPage(Model model, @ModelAttribute("task") Task task) {
+    public String todoPage(Model model, @ModelAttribute("task") TaskDTO taskDTO) {
 
         Link linkPatch = WebMvcLinkBuilder.linkTo(AppController.class).withRel("patch");
         Link linkDelete = WebMvcLinkBuilder.linkTo(AppController.class).withRel("delete");
@@ -55,23 +55,32 @@ public class AppController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("task") @Valid Task task,
-                                 BindingResult result) {
+    public String create(@ModelAttribute("task") @Valid TaskDTO taskDTO,
+                                 BindingResult result, Model model) {
         User user = getUserFromAuthentication();
 
         if (result.hasErrors()) {
-            return "redirect:/todo";
+            Link linkPatch = WebMvcLinkBuilder.linkTo(AppController.class).withRel("patch");
+            Link linkDelete = WebMvcLinkBuilder.linkTo(AppController.class).withRel("delete");
+
+            model.addAttribute("updateLink", linkPatch.getHref());
+            model.addAttribute("deleteLink", linkDelete.getHref());
+
+            List<Task> tasks = taskService.getAllByUserId(user.getId());
+            model.addAttribute("tasks", tasks);
+
+            return "todo-page";
         }
 
-        taskService.save(task, user);
+        taskService.save(convertToTask(taskDTO), user);
 
         return "redirect:/todo";
     }
 
     @PatchMapping("/complete/{id}")
-    public String complete(@PathVariable("id") int id, @ModelAttribute("task") Task task) {
+    public String complete(@PathVariable("id") int id, @ModelAttribute("task") TaskDTO taskDTO) {
 
-        taskService.completeById(id, task);
+        taskService.completeById(id, convertToTask(taskDTO));
 
         return "redirect:/todo";
     }
@@ -82,27 +91,28 @@ public class AppController {
         Link linkPatch = WebMvcLinkBuilder.linkTo(AppController.class).slash(id).withRel("patch");
 
         User user = getUserFromAuthentication();
-        Task task = taskService.getById(id);
+
+        TaskDTO taskDTO = convertToTaskDTO(taskService.getById(id));
 
         if (user.getId() != taskService.getById(id).getUser().getId()) {
             return "redirect:/todo";
         }
 
-        model.addAttribute("task", task);
+        model.addAttribute("task", taskDTO);
         model.addAttribute("updateLink", linkPatch.getHref());
 
         return "todo-edit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("task") @Valid Task task,
+    public String update(@ModelAttribute("task") @Valid TaskDTO taskDTO,
                          BindingResult result, @PathVariable("id") int id) {
 
         if (result.hasErrors()) {
-            return "redirect:/todo/{id}";
+            return "todo-edit";
         }
 
-        taskService.update(id, task);
+        taskService.update(id, convertToTask(taskDTO));
 
         return "redirect:/todo";
     }
@@ -127,6 +137,14 @@ public class AppController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         return personDetails.getUser();
+    }
+
+    private Task convertToTask(TaskDTO taskDTO) {
+        return modelMapper.map(taskDTO, Task.class);
+    }
+
+    private TaskDTO convertToTaskDTO(Task task) {
+        return modelMapper.map(task, TaskDTO.class);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.todoapptestexample.util.validators;
 
+import com.example.todoapptestexample.dto.UserDTO;
 import com.example.todoapptestexample.models.User;
 import com.example.todoapptestexample.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,9 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User) target;
+        UserDTO userDTO = (UserDTO) target;
 
-        Optional<User> userForCreation = userService.loadUserByUsernameForValidation(user.getLogin());
+        Optional<User> userForCreation = userService.loadUserByUsernameForValidation(userDTO.getLogin());
 
         if (userForCreation.isPresent()) {
             errors.rejectValue("login", "", "Юзер с таким логином уже существует!");

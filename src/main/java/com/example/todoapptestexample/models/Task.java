@@ -17,9 +17,8 @@ public class Task extends RepresentationModel {
     private int id;
 
     @Column(name = "body")
-    @NotEmpty(message = "Поле задачи не должно быть пустым!")
     @NotBlank(message = "Поле задачи не должно быть пустым!")
-    @Size(max = 255, message = "Длина задачи должна быть не больше 255 символов!")
+    @Size(max = 60, message = "Длина задачи должна быть не больше 60 символов!")
     private String body;
 
     @Column(name = "created_at")

@@ -1,12 +1,12 @@
 package com.example.todoapptestexample.controllers;
 
+import com.example.todoapptestexample.dto.UserDTO;
 import com.example.todoapptestexample.models.User;
-import com.example.todoapptestexample.security.PersonDetails;
 import com.example.todoapptestexample.services.RegistrationService;
 import com.example.todoapptestexample.util.validators.UserValidator;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +22,13 @@ public class LoginController {
 
     private final UserValidator userValidator;
     private final RegistrationService registrationService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public LoginController(UserValidator userValidator, RegistrationService registrationService) {
+    public LoginController(UserValidator userValidator, RegistrationService registrationService, ModelMapper modelMapper) {
         this.userValidator = userValidator;
         this.registrationService = registrationService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/")
@@ -53,14 +55,15 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
+    public String create(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult bindingResult) {
+
+        userValidator.validate(userDTO, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "register";
         }
 
-        registrationService.register(user);
+        registrationService.register(convertToUser(userDTO));
 
         return "redirect:/login";
     }
@@ -74,5 +77,9 @@ public class LoginController {
         }
 
         return "login";
+    }
+
+    private User convertToUser(UserDTO userDTO) {
+        return modelMapper.map(userDTO, User.class);
     }
 }

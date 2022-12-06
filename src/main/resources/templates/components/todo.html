@@ -22,6 +22,10 @@
                                                         <form th:method="post" th:action="@{/todo}"
                                                               th:object="${task}">
                                                             <div class="row">
+                                                                <div th:if="${#fields.hasErrors('body')}"
+                                                                     th:errors="*{body}" style="color: darkred">
+                                                                    Неправильно!
+                                                                </div>
                                                                 <div class="col-lg-6 align-self-center">
                                                                     <input style="margin-right: 20px; display: flex;"
                                                                            class="form-control form-control-lg"
@@ -72,7 +76,8 @@
                                         </li>
                                         <li
                                                 class="list-group-item px-3 py-1 d-flex align-items-center flex-grow-1 border-0 bg-transparent">
-                                            <p class="lead fw-normal mb-0"
+                                            <p class="lead fw-normal mb-0 align-self-center"
+                                               style="word-wrap: break-word;"
                                                th:text="${task.getBody()}"
                                                th:attr="style=${task.completed ? 'text-decoration: line-through' : ''}">
                                                 Task text</p>
@@ -104,9 +109,8 @@
                         </div>
                     </div>
                 </div>
+            </section>
         </div>
-        </section>
-    </div>
     </div>
 </th:block>
 
@@ -169,8 +173,7 @@
                         </div>
                     </div>
                 </div>
+            </section>
         </div>
-        </section>
-    </div>
     </div>
 </th:block>
